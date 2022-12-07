@@ -1,17 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:park_it/entity/app_user.dart';
+import 'package:park_it/provider/user_provider.dart';
+import 'package:park_it/screens/bottom_navigation_screens/home_screens/select_city_sheet.dart';
 import 'package:park_it/widgets/custom_text.dart';
-
 import '../../../helpers/constant.dart';
+import '../../../widgets/drawer.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen(
+      {super.key, required this.appUser, required this.userProvider});
+  final AppUser appUser;
+  final UserProvider userProvider;
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    print(widget.appUser.city);
+    print('=====================');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer:
+          Drawerr(appUser: widget.appUser, userProvider: widget.userProvider),
       appBar: AppBar(
-        shadowColor: white,
-        backgroundColor: white,
+        shadowColor: red,
+        backgroundColor: red,
         title: Container(
           margin: const EdgeInsets.only(left: 70),
           child: Text(
@@ -19,12 +38,14 @@ class HomeScreen extends StatelessWidget {
             style: TextStyle(color: black),
           ),
         ),
-        leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.menu,
-              color: black,
-            )),
+        leading: Builder(builder: (BuildContext context) {
+          return IconButton(
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              icon: Icon(
+                Icons.menu,
+                color: black,
+              ));
+        }),
         actions: [
           IconButton(
               onPressed: () {},
@@ -43,14 +64,14 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const CustomText(
-                text: 'Welcome Back, Richard',
+              CustomText(
+                text: 'Welcome, ${widget.appUser.username}',
                 size: 25,
                 weight: FontWeight.bold,
               ),
               const Text(
                 'Find your nearest parking',
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: Color.fromARGB(255, 243, 188, 188)),
               ),
               const SizedBox(
                 height: 10,
@@ -72,30 +93,7 @@ class HomeScreen extends StatelessWidget {
                       showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return Container(
-                            color: Colors.transparent,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(40.0),
-                                      topRight: Radius.circular(40.0))),
-                              height: 500,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    const Text('Modal BottomSheet'),
-                                    ElevatedButton(
-                                      child: const Text('Close BottomSheet'),
-                                      onPressed: () => Navigator.pop(context),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
+                          return const SelectCitySheet();
                         },
                       );
                     }),
@@ -149,7 +147,7 @@ class HomeScreen extends StatelessWidget {
                 height: 20,
               ),
               const CustomText(
-                text: 'Previous Parking',
+                text: 'My Reservation',
                 weight: FontWeight.bold,
               ),
               Container(
@@ -161,16 +159,16 @@ class HomeScreen extends StatelessWidget {
                       return Card(
                         elevation: 3,
                         child: ListTile(
-                          subtitle: const Text('9 july, 2021'),
+                          subtitle: const Text('5 Dec, 2022'),
                           leading: const Icon(Icons.pedal_bike_outlined),
                           trailing: Text(
-                            "Rs 500",
+                            "Rs 900",
                             style: TextStyle(
                                 color: teal,
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),
-                          title: const Text("Blue parking"),
+                          title: const Text("Pakages Mall"),
                         ),
                       );
                     }),
