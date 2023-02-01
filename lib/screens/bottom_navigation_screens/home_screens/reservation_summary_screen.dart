@@ -228,8 +228,11 @@ class _ReservationSummaryScreenState extends State<ReservationSummaryScreen> {
     );
   }
 
+//lower case added
   uploadData(context) async {
     widget.reservation.id = auth.currentUser!.uid;
+    widget.reservation.plateNumber =
+        widget.reservation.plateNumber.toLowerCase();
     setState(() {
       isLoading = true;
     });

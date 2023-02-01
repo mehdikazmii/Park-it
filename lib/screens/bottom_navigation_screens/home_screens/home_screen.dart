@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:park_it/entity/app_user.dart';
+import 'package:park_it/helpers/screen_navigation.dart';
 import 'package:park_it/provider/user_provider.dart';
+import 'package:park_it/screens/bottom_navigation_screens/home_screens/reservation_crad_screen.dart';
 import 'package:park_it/screens/bottom_navigation_screens/home_screens/select_city_sheet.dart';
 import 'package:park_it/widgets/custom_text.dart';
 import '../../../helpers/constant.dart';
@@ -151,28 +154,55 @@ class _HomeScreenState extends State<HomeScreen> {
                 weight: FontWeight.bold,
               ),
               Container(
-                margin: const EdgeInsets.only(top: 10),
-                height: 200,
-                child: ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        elevation: 3,
-                        child: ListTile(
-                          subtitle: const Text('5 Dec, 2022'),
-                          leading: const Icon(Icons.pedal_bike_outlined),
-                          trailing: Text(
-                            "Rs 900",
-                            style: TextStyle(
-                                color: teal,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          title: const Text("Pakages Mall"),
-                        ),
-                      );
-                    }),
-              )
+                  margin: const EdgeInsets.only(top: 10),
+                  height: 200,
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('reservations')
+                          .where("id", isEqualTo: widget.appUser.id)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Container();
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container();
+                        }
+                        var item = snapshot.data!.docs;
+
+                        return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var data = item[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  changeScreen(
+                                      context, ResevationCard(data: data));
+                                },
+                                child: Card(
+                                  elevation: 3,
+                                  child: ListTile(
+                                    subtitle: Text(DateTime.parse(
+                                            data['reservationTime']
+                                                .toDate()
+                                                .toString())
+                                        .toString()),
+                                    leading:
+                                        const Icon(Icons.pedal_bike_outlined),
+                                    trailing: Text(
+                                      data['price'].toString(),
+                                      style: TextStyle(
+                                          color: teal,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    title: Text(data['place']),
+                                  ),
+                                ),
+                              );
+                            });
+                      }))
             ],
           ),
         ),

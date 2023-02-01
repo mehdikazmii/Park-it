@@ -17,7 +17,6 @@ class SelectSlotSCreen extends StatefulWidget {
 
 class _SelectSlotSCreenState extends State<SelectSlotSCreen> {
   int? selected;
-  // List<Map<String, dynamic>> maps = [];
   List<int> indexes = [];
   @override
   void initState() {
@@ -42,9 +41,20 @@ class _SelectSlotSCreenState extends State<SelectSlotSCreen> {
             DateTime.parse(element['reservationEndTime'].toDate().toString());
         print(endTime);
         widget.reservation.reservationTime!.isAfter(startTime) &&
-                widget.reservation.reservationTime!.isBefore(endTime)
+                    widget.reservation.reservationTime!.isBefore(endTime) ||
+                widget.reservation.reservationTime!
+                    .isAtSameMomentAs(startTime) ||
+                widget.reservation.reservationTime!.isAtSameMomentAs(endTime)
             ? indexes.add(int.parse(element['slotNumber']) - 1)
             : null;
+// newly added code which will define if the user selects the same time as previous slots it will chnage the color
+// and now i have added the lines in previous code
+
+        // widget.reservation.reservationTime!.isAtSameMomentAs(startTime) ||
+        //         widget.reservation.reservationTime!.isAtSameMomentAs(endTime)
+        //     ? indexes.add(int.parse(element['slotNumber']) - 1)
+        //     : null;
+
         print('-----loop----');
       }
     });
