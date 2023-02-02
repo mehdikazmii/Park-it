@@ -13,7 +13,8 @@ import 'package:park_it/widgets/custom_text.dart';
 import 'package:park_it/widgets/custom_textfield.dart';
 
 class SelectVehicleSheet extends StatefulWidget {
-  SelectVehicleSheet({Key? key, required this.reservation}) : super(key: key);
+  const SelectVehicleSheet({Key? key, required this.reservation})
+      : super(key: key);
   final Reservation reservation;
 
   @override

@@ -39,6 +39,9 @@ class _ReservationSummaryScreenState extends State<ReservationSummaryScreen> {
       ),
       body: SafeArea(
           child: CustomModalProgressHUD(
+        color: Colors.grey.withOpacity(0.3),
+        progressIndicator: const CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.red)),
         inAsyncCall: isLoading,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),

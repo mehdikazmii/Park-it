@@ -2,9 +2,6 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:park_it/screens/bottom_navigation_screens/home_screens/home_screen.dart';
-import 'package:park_it/screens/bottom_navigation_screens/info_screens/info_screens.dart';
-import 'package:park_it/screens/bottom_navigation_screens/map_screens/map_screen.dart';
-import 'package:park_it/screens/bottom_navigation_screens/profile_screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 import '../../entity/app_user.dart';
 import '../../helpers/constant.dart';
@@ -28,9 +25,9 @@ class _BottomBarScreenState extends State<BottomNavigationScreen> {
     List<Widget> buildScreens(userProvider, appUser) {
       return [
         HomeScreen(userProvider: userProvider, appUser: appUser),
-        MapScreen(appUser: appUser),
-        ProfileScreen(appUser: appUser),
-        InfoScreen(appUser: appUser),
+        // MapScreen(appUser: appUser),
+        // ProfileScreen(appUser: appUser),
+        // InfoScreen(appUser: appUser),
       ];
     }
 
@@ -56,9 +53,9 @@ class _BottomBarScreenState extends State<BottomNavigationScreen> {
             unSelectedColor: Colors.grey,
             items: [
               CustomNavigationBarItem(icon: const Icon(Icons.home)),
-              CustomNavigationBarItem(icon: const Icon(Icons.map_sharp)),
-              CustomNavigationBarItem(icon: const Icon(Icons.person)),
-              CustomNavigationBarItem(icon: const Icon(Icons.info_outlined)),
+              // CustomNavigationBarItem(icon: const Icon(Icons.map_sharp)),
+              // CustomNavigationBarItem(icon: const Icon(Icons.person)),
+              // CustomNavigationBarItem(icon: const Icon(Icons.info_outlined)),
             ]),
         body: Consumer<UserProvider>(builder: (context, userProvider, child) {
           return FutureBuilder<AppUser?>(
